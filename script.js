@@ -3,6 +3,67 @@ let cachedMingguan = [];
 let rangeStartDate = null;
 let rangeEndDate = null;
 
+// 1. Data Kode Unik (Simulasi)
+const userCodes = {
+  "Wahyu": "9897",
+  "Zaskia": "3231",
+  "Nina": "5453",
+  "Eki": "6564",
+  "Layla": "7675",
+  "Fida": "9291",
+  "Lorent": "7372",
+  "Jihan": "8685"
+};
+
+document.getElementById('loginBtn').addEventListener('click', async function() {
+  const user = document.getElementById('userSelect').value;
+  const code = document.getElementById('loginCode').value;
+  const errorElement = document.getElementById('loginError');
+
+  if (!user || !code) {
+    errorElement.textContent = "Pilih nama dan isi kode unik!";
+    return;
+  }
+
+  if (userCodes[user] === code) {
+    // Tampilkan Loading
+    document.getElementById('loginOverlay').style.display = 'none';
+    document.getElementById('loadingScreen').style.display = 'flex';
+
+
+    // 1. Sinkronkan ke userSelect lama agar sistem tahu siapa yang login
+    const mainSelect = document.getElementById('userSelect');
+    mainSelect.value = user;
+
+    document.getElementById('userDisplay').textContent = `| ${user}`;
+
+    try {
+      // 2. Pemicu Otomatis: Jalankan event 'change' yang sudah ada di script.js
+      // Ini akan menjalankan fungsi fetch(WEB_APP_URL) yang sudah Anda buat
+      mainSelect.dispatchEvent(new Event('change'));
+
+      // 3. Beri jeda sedikit agar fetch selesai, lalu tampilkan konten
+      setTimeout(() => {
+        document.getElementById('loadingScreen').style.display = 'none';
+        document.getElementById('mainContent').style.display = 'block';
+        
+        // Pastikan tabel dirender ulang jika rentang tanggal sudah ada
+        if (rangeStartDate && rangeEndDate) {
+           applyDailyData(cachedHarian);
+           applyWeeklyGrid(cachedMingguan);
+        }
+      }, 1500); 
+
+    } catch (err) {
+      console.error(err);
+      alert("Gagal memuat data.");
+      location.reload();
+    }
+  } else {
+    errorElement.textContent = "Kode unik salah!";
+  }
+});
+
 function formatToLocalISO(date) {
     const offset = date.getTimezoneOffset();
     const localDate = new Date(date.getTime() - (offset * 60 * 1000));
