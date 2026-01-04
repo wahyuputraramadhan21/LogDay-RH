@@ -1,349 +1,138 @@
-:root {
-  --bg: #0f172a;
-  --card: #1e293b;
-  --text: #e5e7eb;
-  --muted: #94a3b8;
-  --accent: #22c55e;
-}
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>LogConnect - RH</title>
+    <!-- Flatpickr -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="dark">
+  <div id="loginOverlay" class="login-page">
+  <div class="login-card">
+    <div class="login-header">
+      <div class="login-logo">T</div>
+      <h1>Tumbuh Lebih Baik</h1>
+      <p>Silakan masuk untuk melanjutkan</p>
+    </div>
 
-body {
-  margin: 0;
-  font-family: system-ui, sans-serif;
-  background: var(--bg);
-  color: var(--text);
-}
+    <div class="login-form">
+      <div class="form-group">
+        <label>NAMA PENGGUNA</label>
+        <select id="userSelect">
+          <option value="">Pilih Nama Anda</option>
+          <option value="Wahyu">Wahyu</option>
+          <option value="Zaskia">Zaskia</option>
+          <option value="Nina">Nina</option>
+          <option value="Eki">Eki</option>
+          <option value="Layla">Layla</option>
+          <option value="Fida">Fida</option>
+          <option value="Lorent">Lorent</option>
+          <option value="Jihan">Jihan</option>
+        </select>
+      </div>
 
-.topbar {
-  display: flex;
-  justify-content: space-between;
-  padding: 16px 24px;
-  background: #020617;
-}
+      <div class="form-group">
+        <label>KODE UNIK</label>
+        <input type="password" id="loginCode" placeholder="Masukkan kode unik">
+      </div>
 
-.brand {
-  display: flex;
-  gap: 10px;
-  align-items: center;
-}
+      <button id="loginBtn" class="btn-login">MASUK</button>
+      <p id="loginError" class="error-msg"></p>
+    </div>
+  </div>
+</div>
 
-.logo {
-  background: #38bdf8;
-  color: #000;
-  font-weight: bold;
-  padding: 6px 10px;
-  border-radius: 6px;
-}
+<div id="loadingScreen" class="loading-overlay" style="display: none;">
+  <div class="spinner"></div>
+  <p>Memuat data ...</p>
+</div>
 
-.top-actions {
-  display: flex;
-  gap: 10px;
-}
+<div id="mainContent" style="display: none;">
+  <!-- HEADER -->
+  <header class="topbar">
+    <div class="brand">
+      <span class="logo">RH</span>
+    </div>
 
-select, input[type="date"], button {
-  background: #020617;
-  color: var(--text);
-  border: 1px solid #334155;
-  border-radius: 6px;
-  padding: 6px 10px;
-}
+    <span id="userDisplay" style="margin-left: 10px; font-size: 14px; color: white; font-weight: bold;"></span>
+  </header>
 
-.filter {
-  padding: 16px 24px;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
+    <!-- FILTER -->
+    <section class="filter">
+    <label class="filter-label">Pilih Rentang Tanggal</label>
+    <input
+        type="text"
+        id="dateRange"
+        placeholder="Klik untuk pilih tanggal"
+        readonly
+    />
+    </section>
 
-.filter-label {
-  font-size: 14px;
-  color: var(--muted);
-}
+  <!-- TUGAS HARIAN -->
+  <section class="card">
+    <h3>Tugas Harian</h3>
 
-#dateRange {
-  width: 260px;
-  cursor: pointer;
-}
+    <div class="table-wrapper">
+      <table id="dailyTable">
+        <thead>
+          <tr id="dateHeader">
+            <th class="sticky">Nama Tugas</th>
+            <!-- tanggal akan di-generate JS -->
+          </tr>
+        </thead>
+        <tbody id="dailyBody">
+          <!-- data tugas -->
+        </tbody>
+      </table>
+    </div>
+  </section>
 
-/* Flatpickr Dark Mode */
-.flatpickr-calendar {
-  background: #020617;
-  color: #e5e7eb;
-  border-radius: 12px;
-}
+<section class="card">
+  <h3>Tugas Mingguan</h3>
 
-.flatpickr-day.selected,
-.flatpickr-day.startRange,
-.flatpickr-day.endRange {
-  background: #22c55e;
-  border-color: #22c55e;
-}
-
-.flatpickr-day.inRange {
-  background: rgba(34,197,94,0.2);
-}
-
-.card {
-  background: var(--card);
-  margin: 16px 24px;
-  padding: 16px;
-  border-radius: 12px;
-}
-
-.table-wrapper {
-  overflow-x: auto;
-}
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-th, td {
-  border-bottom: 1px solid #334155;
-  padding: 8px;
-  text-align: center;
-}
-
-th.sticky {
-  position: sticky;
-  left: 0;
-  background: var(--card);
-  text-align: left;
-}
-
-th.today {
-  background: rgba(34, 197, 94, 0.25);
-  font-weight: bold;
-}
+  <div class="table-wrapper">
+    <table class="weekly-grid">
+      <thead>
+        <tr id="weeklyHeader">
+          <th class="sticky">Nama Tugas</th>
+        </tr>
+      </thead>
+      <tbody id="weeklyBody"></tbody>
+    </table>
+  </div>
+</section>
 
 
-.checkbox {
-  width: 18px;
-  height: 18px;
-}
-
-input[type="checkbox"]:checked {
-  accent-color: var(--accent);
-}
-
-.primary-btn {
-  margin: 24px;
-  width: calc(100% - 48px);
-  padding: 14px;
-  background: linear-gradient(90deg, #38bdf8, #22c55e);
-  border: none;
-  border-radius: 12px;
-  font-size: 16px;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-.primary-btn:disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
-}
+<section class="card" id="historySection">
+  <h3>Riwayat Progres</h3>
+  <div id="historyContent" class="history-list">
+    <p class="muted">Pilih nama untuk melihat riwayat.</p>
+  </div>
+</section>
 
 
-.weekly-table select,
-.weekly-table input {
-  width: 100%;
-  text-align: center;
-  cursor: pointer;
-}
 
-.weekly-table input::placeholder {
-  color: var(--muted);
-}
+  <button class="primary-btn" id="submitBtn">
+    Update Progress
+  </button>
 
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
+  <div class="modal-overlay" id="nameModal">
+  <div class="modal">
+    <h4>👤 Pilih Nama Dulu</h4>
+    <p>
+      Supaya progres tercatat rapi,
+      silakan pilih nama pengurus terlebih dahulu.
+    </p>
+    <button id="closeModal">Oke, pilih nama</button>
+  </div>
+</div>
 
-  background: rgba(0, 0, 0, 0.6);
+</div>
 
-  display: none;
-  align-items: center;
-  justify-content: center;
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+  <script src="script.js"></script>
 
-  z-index: 9999;
-}
-
-.modal {
-  background: var(--card);
-  padding: 24px;
-  border-radius: 14px;
-  max-width: 360px;
-  width: 90%;
-  text-align: center;
-
-  box-shadow: 0 20px 40px rgba(0,0,0,0.4);
-}
-
-/* Riwayat Progres */
-.history-list {
-  max-height: 240px;
-  overflow-y: auto;
-}
-
-.history-item {
-  padding: 8px 0;
-  border-bottom: 1px dashed #334155;
-  font-size: 14px;
-}
-
-.history-item span {
-  color: var(--muted);
-  font-size: 12px;
-}
-
-.week-badge {
-  margin-top: 4px;
-  font-size: 12px;
-  color: #555;
-  font-style: italic;
-}
-
-/* TEMA LOGIN HITAM */
-.login-page {
-  position: fixed;
-  top: 0; left: 0; width: 100%; height: 100%;
-  background: #000000; /* Hitam pekat */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
-}
-
-.login-card {
-  width: 90%;
-  max-width: 400px;
-  background: #0a0a0a; /* Hitam sedikit terang untuk kontras */
-  padding: 40px 30px;
-  border-radius: 20px;
-  border: 1px solid #222;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-  text-align: center;
-}
-
-.login-logo {
-  width: 60px;
-  height: 60px;
-  background: #ffffff;
-  color: #000;
-  font-size: 28px;
-  font-weight: bold;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 12px;
-  margin: 0 auto 20px;
-}
-
-.login-card h1 {
-  font-size: 24px;
-  margin-bottom: 8px;
-  color: #fff;
-}
-
-.login-card p {
-  color: #666;
-  font-size: 14px;
-  margin-bottom: 30px;
-}
-
-.form-group {
-  text-align: left;
-  margin-bottom: 20px;
-}
-
-.form-group label {
-  display: block;
-  font-size: 11px;
-  font-weight: bold;
-  color: #888;
-  margin-bottom: 8px;
-  letter-spacing: 1px;
-}
-
-.login-form select, 
-.login-form input {
-  width: 100%;
-  padding: 14px;
-  background: #111;
-  border: 1px solid #333;
-  border-radius: 10px;
-  color: #fff;
-  font-size: 16px;
-  box-sizing: border-box;
-}
-
-.btn-login {
-  width: 100%;
-  padding: 15px;
-  background: #fff; /* Tombol Putih agar sangat kontras di bg hitam */
-  color: #000;
-  border: none;
-  border-radius: 10px;
-  font-weight: bold;
-  font-size: 16px;
-  cursor: pointer;
-  margin-top: 10px;
-  transition: 0.3s;
-}
-
-.btn-login:hover {
-  background: #ccc;
-}
-
-.error-msg {
-  color: #ff4d4d;
-  font-size: 13px;
-  margin-top: 15px;
-}
-
-/* Loading Screen Overlay */
-.loading-overlay {
-  position: fixed;
-  top: 0; left: 0; width: 100%; height: 100%;
-  background: #000000;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  z-index: 10000;
-  color: white;
-}
-
-/* Animasi Spinner */
-.spinner {
-  width: 40px;
-  height: 40px;
-  border: 4px solid rgba(255, 255, 255, 0.1);
-  border-left-color: #ffffff;
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-  margin-bottom: 15px;
-}
-
-@keyframes spin {
-  to { transform: rotate(360deg); }
-}
-
-/* Sembunyikan konten dengan halus */
-.hidden {
-  display: none;
-}
-
-/* Animasi Shake jika kode salah */
-.shake {
-  animation: shake 0.5s;
-}
-
-@keyframes shake {
-  0%, 100% { transform: translateX(0); }
-  25% { transform: translateX(-10px); }
-  75% { transform: translateX(10px); }
-}
+</body>
+</html>
