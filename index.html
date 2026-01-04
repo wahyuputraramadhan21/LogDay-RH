@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>LogConnect - RH</title>
+    <!-- Flatpickr -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="dark">
+
+  <!-- HEADER -->
+  <header class="topbar">
+    <div class="brand">
+      <span class="logo">RH</span>
+    </div>
+
+    <div class="top-actions">
+      <select id="userSelect">
+        <option value="">Pilih Nama Pengurus</option>
+        <option>Wahyu</option>
+        <option>Zaskia</option>
+        <option>Nina</option>
+        <option>Eki</option>
+        <option>Layla</option>
+        <option>Fida</option>
+        <option>Lorent</option>
+        <option>Jihan</option>
+      </select>
+    </div>
+  </header>
+
+    <!-- FILTER -->
+    <section class="filter">
+    <label class="filter-label">Pilih Rentang Tanggal</label>
+    <input
+        type="text"
+        id="dateRange"
+        placeholder="Klik untuk pilih tanggal"
+        readonly
+    />
+    </section>
+
+  <!-- TUGAS HARIAN -->
+  <section class="card">
+    <h3>Tugas Harian</h3>
+
+    <div class="table-wrapper">
+      <table id="dailyTable">
+        <thead>
+          <tr id="dateHeader">
+            <th class="sticky">Nama Tugas</th>
+            <!-- tanggal akan di-generate JS -->
+          </tr>
+        </thead>
+        <tbody id="dailyBody">
+          <!-- data tugas -->
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+<section class="card">
+  <h3>Tugas Mingguan</h3>
+
+  <div class="table-wrapper">
+    <table class="weekly-grid">
+      <thead>
+        <tr id="weeklyHeader">
+          <th class="sticky">Nama Tugas</th>
+        </tr>
+      </thead>
+      <tbody id="weeklyBody"></tbody>
+    </table>
+  </div>
+</section>
+
+
+<section class="card" id="historySection">
+  <h3>Riwayat Progres</h3>
+  <div id="historyContent" class="history-list">
+    <p class="muted">Pilih nama untuk melihat riwayat.</p>
+  </div>
+</section>
+
+
+
+  <button class="primary-btn" id="submitBtn">
+    Update Progress
+  </button>
+
+  <div class="modal-overlay" id="nameModal">
+  <div class="modal">
+    <h4>👤 Pilih Nama Dulu</h4>
+    <p>
+      Supaya progres tercatat rapi,
+      silakan pilih nama pengurus terlebih dahulu.
+    </p>
+    <button id="closeModal">Oke, pilih nama</button>
+  </div>
+</div>
+
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+  <script src="script.js"></script>
+</body>
+</html>
