@@ -9,26 +9,54 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body class="dark">
+  <div id="loginOverlay" class="login-page">
+  <div class="login-card">
+    <div class="login-header">
+      <div class="login-logo">T</div>
+      <h1>Tumbuh Lebih Baik</h1>
+      <p>Silakan masuk untuk melanjutkan</p>
+    </div>
 
+    <div class="login-form">
+      <div class="form-group">
+        <label>NAMA PENGGUNA</label>
+        <select id="userSelect">
+          <option value="">Pilih Nama Anda</option>
+          <option value="Wahyu">Wahyu</option>
+          <option value="Zaskia">Zaskia</option>
+          <option value="Nina">Nina</option>
+          <option value="Eki">Eki</option>
+          <option value="Layla">Layla</option>
+          <option value="Fida">Fida</option>
+          <option value="Lorent">Lorent</option>
+          <option value="Jihan">Jihan</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>KODE UNIK</label>
+        <input type="password" id="loginCode" placeholder="Masukkan kode unik">
+      </div>
+
+      <button id="loginBtn" class="btn-login">MASUK</button>
+      <p id="loginError" class="error-msg"></p>
+    </div>
+  </div>
+</div>
+
+<div id="loadingScreen" class="loading-overlay" style="display: none;">
+  <div class="spinner"></div>
+  <p>Memuat data ...</p>
+</div>
+
+<div id="mainContent" style="display: none;">
   <!-- HEADER -->
   <header class="topbar">
     <div class="brand">
       <span class="logo">RH</span>
     </div>
 
-    <div class="top-actions">
-      <select id="userSelect">
-        <option value="">Pilih Nama Pengurus</option>
-        <option>Wahyu</option>
-        <option>Zaskia</option>
-        <option>Nina</option>
-        <option>Eki</option>
-        <option>Layla</option>
-        <option>Fida</option>
-        <option>Lorent</option>
-        <option>Jihan</option>
-      </select>
-    </div>
+    <span id="userDisplay" style="margin-left: 10px; font-size: 14px; color: white; font-weight: bold;"></span>
   </header>
 
     <!-- FILTER -->
@@ -44,13 +72,13 @@
 
   <!-- TUGAS HARIAN -->
   <section class="card">
-    <h3>Logday Harian</h3>
+    <h3>Tugas Harian</h3>
 
     <div class="table-wrapper">
       <table id="dailyTable">
         <thead>
           <tr id="dateHeader">
-            <th>Nama Tugas</th>
+            <th class="sticky">Nama Tugas</th>
             <!-- tanggal akan di-generate JS -->
           </tr>
         </thead>
@@ -62,7 +90,7 @@
   </section>
 
 <section class="card">
-  <h3>Logday Mingguan</h3>
+  <h3>Tugas Mingguan</h3>
 
   <div class="table-wrapper">
     <table class="weekly-grid">
@@ -101,9 +129,10 @@
   </div>
 </div>
 
+</div>
+
   <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
   <script src="script.js"></script>
+
 </body>
 </html>
-
-
